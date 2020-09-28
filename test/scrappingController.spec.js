@@ -2,7 +2,7 @@
 const axios = require("axios");
 const chai = require("chai");
 const expect = chai.expect;
-const url = "http://localhost:3000/repository/files/info/andrerebonato/boiler-rest-api-nodets";
+const url = "https://rebonato-trustly-challenge-api.herokuapp.com/repository/files/info/andrerebonato/boiler-rest-api-nodets";
 
 describe("Test challenger Trustly API", async () => {
     it("Must show all lines of files grouped by file extension", async (done) => {

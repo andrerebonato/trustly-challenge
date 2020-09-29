@@ -27,7 +27,7 @@ function parseCodeFile(path, filetype, onSuccess) {
             result.lines += 1;   
         })
         .on("end", function() {
-        onSuccess(result);
+            onSuccess(result);
         })
         .read();
 }

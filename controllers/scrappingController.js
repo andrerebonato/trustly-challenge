@@ -1,4 +1,5 @@
 'use strict';
+
 const configs = require('../configs/index'),    
     git = require("../helpers/git"),
     linecount = require("../helpers/lineCount");
@@ -12,7 +13,7 @@ exports.getRepositoryFilesInfo = async (req, res) => {
         }
 
         git.cloneRepo(profile, repository, linecount.countLinesBuilder, (result) => {
-            return res.status(configs.httpStatus.ok).send(configs.sendResponse(true, "Ok", result));
+            return res.status(configs.httpStatus.ok).send(configs.sendResponse(true, "That's all, folks!", result));
         });
     } catch(err) {
         return res.status(configs.httpStatus.internalServerError, 'An internal server error has occurred, please try again later ...', err);

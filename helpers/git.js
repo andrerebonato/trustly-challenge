@@ -1,11 +1,14 @@
 'use strict';
+
 const fs = require('fs'),
     splitter = require('stream-splitter'),
     spawn = require('child_process').spawn;
 
-function buildGitUrl(user, repo) {
-    return 'https://github.com/' + user + '/' + repo + '.git';
-}
+const buildGitUrl = (user, repo) => `https://github.com/${user}/${repo}.git`;
+
+const buildTmpDirPath = () => `/tmp/challenge-trustly-' ${randomChars(8)}`;
+
+const cleanup = (clonePath) => deleteFolderRecursive(clonePath);
 
 function randomChars(length) {
     let value = 97;
@@ -14,10 +17,6 @@ function randomChars(length) {
         result += String.fromCharCode(value + Math.floor(Math.random() * 26));
     }
     return result;
-}
-
-function buildTmpDirPath() {
-    return '/tmp/line-count-clone-' + randomChars(8);
 }
 
 function deleteFolderRecursive(path) {
@@ -34,6 +33,7 @@ function deleteFolderRecursive(path) {
     }
 }
 
+//clone repository
 function execGitCloneCmd(gitUrl, clonePath, onSuccess, onError) {
     let proc = spawn('git', ['clone', '-v', gitUrl, clonePath]); 
     let stdoutLines = proc.stdout.pipe(splitter("\n"));
@@ -50,10 +50,6 @@ function execGitCloneCmd(gitUrl, clonePath, onSuccess, onError) {
         } 
     });
 }
-
-function cleanup(clonePath) {
-    deleteFolderRecursive(clonePath);
-};
     
 const Git = {
     cloneRepo: function(user, repo, onSuccessBuilder, callback) {

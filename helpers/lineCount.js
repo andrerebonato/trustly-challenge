@@ -23,10 +23,12 @@ function addResult(acc, newResult) {
         if (acc.hasOwnProperty(newResult.filetype)) {
             acc[newResult.filetype].files += 1;
             acc[newResult.filetype].lines += newResult.lines;
+            acc[newResult.filetype].totalBytes += newResult.bytes;
         } else {
             acc[newResult.filetype] = {
                 files: 1,
-                lines: newResult.lines
+                lines: newResult.lines,
+                totalBytes: newResult.bytes
             };
         }
     }

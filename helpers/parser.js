@@ -1,6 +1,7 @@
 "use strict";
 
 const mime = require('mime'), 
+    fs = require('fs'),
     reader = require('buffered-reader'),
     configs = require("../configs/index");
 
@@ -13,6 +14,11 @@ function getExtension(path) {
     }
 }
 
+function getSize(path) {
+    let stats = fs.statSync(path)
+    return stats.size;
+}
+
 function getCodeFileType(extension) {
     return configs.codeFileTypes[extension];
 }
@@ -20,7 +26,8 @@ function getCodeFileType(extension) {
 function parseCodeFile(path, filetype, onSuccess) {
     var result = {
         filetype: filetype,
-        lines: 0
+        lines: 0,
+        bytes: getSize(path)
     }
     new reader.DataReader(path, { "encoding": "utf-8" })
         .on("line", function(line) {
@@ -36,7 +43,8 @@ function parseTextFile(path, onSuccess) {
     let result = {
         filetype: "text",
         lines: 0,
-        codeLines: 0
+        codeLines: 0,
+        bytes: getSize(path)
     };
 
     new reader.DataReader(path, { "encoding": "utf-8" })
